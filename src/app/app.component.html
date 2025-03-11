@@ -1,0 +1,49 @@
+<div class="container mt-4">
+  <h2 class="text-center">Admin Management</h2>
+  <form (ngSubmit)="editMode ? updateAdmin() : addAdmin()">
+    <div class="mb-3">
+      <label>Admin ID</label>
+      <input [(ngModel)]="newAdmin.adminId" name="adminId" type="number" class="form-control" required placeholder="Enter Admin ID" [readonly]="editMode">
+    </div>
+    <div class="mb-3">
+      <label>Username</label>
+      <input [(ngModel)]="newAdmin.username" name="username" type="text" class="form-control" required placeholder="Enter username">
+    </div>
+    <div class="mb-3">
+      <label>Email</label>
+      <input [(ngModel)]="newAdmin.email" name="email" type="email" class="form-control" required placeholder="Enter email">
+    </div>
+    <div class="mb-3">
+      <label>Password</label>
+      <input [(ngModel)]="newAdmin.password" name="password" type="password" class="form-control" required placeholder="Enter password">
+    </div>
+    <button type="submit" class="btn btn-primary w-100">{{ editMode ? 'Update' : 'Submit' }}</button>
+    <button type="button" class="btn btn-secondary w-100 mt-2" *ngIf="editMode" (click)="cancelEdit()">Cancel</button>
+  </form>
+
+  <h3 class="mt-5 text-center">Admin List</h3>
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let admin of adminDetails; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ admin.adminId }}</td>
+        <td>{{ admin.username }}</td>
+        <td>{{ admin.email }}</td>
+        <td>{{ admin.password }}</td>
+        <td><button class="btn btn-warning" (click)="editAdmin(admin)">Edit</button></td>
+        <td><button class="btn btn-danger" (click)="deleteAdmin(admin.adminId)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

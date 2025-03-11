@@ -7,8 +7,8 @@ import com.tnsif.PlacementManagementSystem.Admin.model.Admin;
 import com.tnsif.PlacementManagementSystem.Admin.service.AdminService;
 
 import java.util.List;
-import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:4200")  // Enable CORS for Angular frontend
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
@@ -28,22 +28,14 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAllAdmins());
     }
 
-    // Read: Get an admin by ID or get all if "all" is passed
+    // Read: Get an admin by ID
     @GetMapping("/{id}")
-    public ResponseEntity<?> getAdminById(@PathVariable String id) {
-        if ("all".equalsIgnoreCase(id)) {
-            return ResponseEntity.ok(adminService.getAllAdmins());
-        }
-        try {
-            int adminId = Integer.parseInt(id);
-            Admin admin = adminService.getAdminById(adminId);
-            if (admin != null) {
-                return ResponseEntity.ok(admin);
-            } else {
-                return ResponseEntity.status(404).body("Admin not found!");
-            }
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body("Invalid ID format. ID must be a number.");
+    public ResponseEntity<?> getAdminById(@PathVariable int id) {
+        Admin admin = adminService.getAdminById(id);
+        if (admin != null) {
+            return ResponseEntity.ok(admin);
+        } else {
+            return ResponseEntity.status(404).body("Admin not found!");
         }
     }
 
@@ -59,7 +51,7 @@ public class AdminController {
     }
 
     // Delete: Delete an admin by ID
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteAdmin(@PathVariable int id) {
         return ResponseEntity.ok(adminService.deleteAdmin(id));
     }
